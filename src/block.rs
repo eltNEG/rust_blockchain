@@ -5,7 +5,7 @@ pub struct Block {
     timestamp: u64,
     data: String,
     prev_block_hash: String,
-    hash: String,
+    pub hash: String,
 }
 
 impl Block {

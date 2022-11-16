@@ -1,5 +1,6 @@
 mod block;
 mod blockchain;
+mod proof_of_work;
 
 fn main() {
     let mut bc = blockchain::Blockchain::new_blockchain();
@@ -12,6 +13,7 @@ fn main() {
         println!("Prev. hash: {}", block.prev_block_hash);
         println!("Data: {}", block.data);
         println!("Hash: {:?}", block.hash);
+        println!("Nonce: {:?}", block.nonce);
         println!();
     }
 }

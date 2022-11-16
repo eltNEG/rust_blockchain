@@ -1,4 +1,4 @@
-use sha2::{Digest, Sha256};
+use crate::proof_of_work;
 
 #[derive(Debug)]
 pub struct Block {
@@ -6,38 +6,31 @@ pub struct Block {
     pub data: String,
     pub prev_block_hash: String,
     pub hash: String,
+    pub nonce: i64,
 }
 
 impl Block {
-    pub fn sethash(&mut self) {
-        let mut hasher = Sha256::new();
-        let header: Vec<u8> = [
-            self.prev_block_hash.as_bytes(),
-            self.data.as_bytes(),
-            self.block_number.to_string().as_bytes(),
-        ]
-        .concat();
-        hasher.update(header);
-        self.hash = format!("{:x}", hasher.finalize());
-    }
 
     pub fn new(block_number: u64, data: String, prev_block_hash: String) -> Block {
-        Block {
+        let b = Block {
             block_number,
             data,
             prev_block_hash,
             hash: String::from(""),
-        }
+            nonce: 0,
+        };
+        let mut pow = proof_of_work::ProofOfWork::new(b);
+        pow.run();
+        pow.block
     }
 
+
     pub fn new_genesis_block() -> Block {
-        let mut b = Block::new(
+        Block::new(
             0,
             String::from("First block; Hurray!"),
             String::from("000000001")
-        );
-        b.sethash();
-        b
+        )
     }
 }
 

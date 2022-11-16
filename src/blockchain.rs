@@ -19,8 +19,7 @@ impl Blockchain {
         let l: u64 = self.blocks.len().try_into().expect("block length should be greater than 1");
         let prev_block = self.blocks.get(n-1).expect("previous block is empty");
         let prev_block_hash = &prev_block.hash;
-        let mut new_block = block::Block::new(l, data, prev_block_hash.to_string());
-        new_block.sethash();
+        let new_block = block::Block::new(l, data, prev_block_hash.to_string());
         self.blocks.push(
             new_block,
         );
